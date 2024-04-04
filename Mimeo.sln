@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.Web", "Mimeo.Web\Mimeo.Web.csproj", "{25C1C70F-F09B-4D68-81B2-B39C32F9CB9A}"
 EndProject
@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.Blocks", "Mimeo.Block
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.Middle", "Mimeo.Middle\Mimeo.Middle.csproj", "{C91A053E-63A4-414B-BDF4-5A9842B55781}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.ConfigBuddy", "Mimeo.ConfigBuddy\Mimeo.ConfigBuddy.csproj", "{1A43B9B4-C678-4F10-AAC3-3EC3C0C78D40}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.ConsoleApp", "Mimeo.Console\Mimeo.ConsoleApp.csproj", "{62CBCA50-706F-4A2E-AA3B-3376F31DE705}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mimeo.ConsoleApp", "Mimeo.ConsoleApp\Mimeo.ConsoleApp.csproj", "{C194BEF7-0131-49F9-A66C-3B1F2BF1B01B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +29,10 @@ Global
 		{C91A053E-63A4-414B-BDF4-5A9842B55781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C91A053E-63A4-414B-BDF4-5A9842B55781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C91A053E-63A4-414B-BDF4-5A9842B55781}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A43B9B4-C678-4F10-AAC3-3EC3C0C78D40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A43B9B4-C678-4F10-AAC3-3EC3C0C78D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A43B9B4-C678-4F10-AAC3-3EC3C0C78D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A43B9B4-C678-4F10-AAC3-3EC3C0C78D40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62CBCA50-706F-4A2E-AA3B-3376F31DE705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62CBCA50-706F-4A2E-AA3B-3376F31DE705}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62CBCA50-706F-4A2E-AA3B-3376F31DE705}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62CBCA50-706F-4A2E-AA3B-3376F31DE705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C194BEF7-0131-49F9-A66C-3B1F2BF1B01B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C194BEF7-0131-49F9-A66C-3B1F2BF1B01B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C194BEF7-0131-49F9-A66C-3B1F2BF1B01B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C194BEF7-0131-49F9-A66C-3B1F2BF1B01B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
