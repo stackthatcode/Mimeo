@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script>
+    $(document).ready(
+        function () {
+            var invoke = function(url) {
+                flow.exec(
+                    function () {
+                        var ajax = new Monster.Ajax();
+                        ajax.HttpGet(url, this);
+                    },
+                    function () {
+                        alert("ok!");
+                    });
+            };
+
+            $("#test-ajax-error").click(() => { invoke("Home/Throw"); });
+            $("#test-ajax-missing").click(() => { invoke("Home/jkljljkljkljkl"); });
+        });
+
+</script>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Mimeo</h1>
+</div>
+

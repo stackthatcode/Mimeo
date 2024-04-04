@@ -1,0 +1,26 @@
+﻿@using Mimeo.Blocks.Helpers
+@model Mimeo.Web.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Model.Title</h1>
+    
+    @if (!Model.Message.IsNullOrEmpty())
+    {
+        <p>@Model.Message</p>
+    }
+    else
+    {
+        <p>Oops! Something went wrong.</p>
+    }
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+</div>
+

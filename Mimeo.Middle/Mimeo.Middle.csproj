@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Hangfire\**" />
+    <EmbeddedResource Remove="Hangfire\**" />
+    <None Remove="Hangfire\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Email\Content\DefaultLogo.png" />
+    <None Remove="Email\Html\ActionTemplate.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Hangfire\BigExperiment.cs" />
+    <Compile Include="Hangfire\HangfireShim.cs" />
+    <Compile Include="Hangfire\HangfireExtensions.cs" />
+    <Compile Include="Hangfire\JobScheduler.cs" />
+    <Compile Include="Hangfire\RecurringJobManger.cs" />
+    <Compile Include="Hangfire\RunLockRepository.cs" />
+    <Compile Include="Hangfire\HangfireLogger.cs" />
+    <Compile Include="Hangfire\HangfireLogProvider.cs" />
+    <Compile Include="Hangfire\JobMonitoringService.cs" />
+    <Compile Include="Hangfire\JobRunner.cs" />
+    <Compile Include="Hangfire\RecurringInterval.cs" />
+    <Compile Include="Hangfire\RecurringIntervalCron.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Email\Content\DefaultLogo.png" />
+    <EmbeddedResource Include="Email\Html\ActionTemplate.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Autofac.Core" Version="1.0.1" />
+    <PackageReference Include="HangFire.Core" Version="1.7.11" />
+    <PackageReference Include="HangFire.SqlServer" Version="1.7.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="RazorEngine.NetCore" Version="3.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mimeo.Blocks\Mimeo.Blocks.csproj" />
+  </ItemGroup>
+
+</Project>
