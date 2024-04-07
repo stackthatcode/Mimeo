@@ -1,0 +1,10 @@
+2024-04-07 17:45:42.301 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 17:47:52.409 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 17:49:44.437 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 17:51:57.471 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 17:52:24.405 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 17:54:05.263 -05:00  [ERR] Failed Mailgun call: Unauthorized - Forbidden
+2024-04-07 18:01:06.234 -05:00  [INF] Message sent to Mailgun - recipients: aleksjones@gmail.com - subject: Hello
+2024-04-07 18:03:19.923 -05:00  [INF] Message sent to Mailgun - recipients: aleksjones@gmail.com - subject: Hello
+2024-04-07 18:15:47.860 -05:00  [INF] Message sent to Mailgun - recipients: aleksjones@gmail.com - subject: Hello
+2024-04-07 18:21:39.921 -05:00  [INF] Message sent to Mailgun - recipients: aleksjones@gmail.com - subject: Hello

@@ -60,13 +60,15 @@ namespace Mimeo.Communications
                         var configService = new MailgunConfigKeyService();
                         var output = new MailgunConfig
                         {
+                            //MailgunResource
+                            //    = "https://api.mailgun.net/v3/sandbox1cfe721f7d774e249b23e53a9f251591.mailgun.org/messages",
                             MailgunResource
-                                = "https://api.mailgun.net/v3/sandbox1cfe721f7d774e249b23e53a9f251591.mailgun.org/messages",
+                                = "https://api.mailgun.net/v3/globalplus.news/messages",
                             MailgunApiKey = configService.GetApiKey(),
-                            FromAddress = "support@mydomain.com",
-                            ReplyToAddress = "support@mydomain.com",
-                            PostmasterAddress = "support@mydomain.com",
-                            EmailDomain = "mydomain.com",
+                            FromAddress = "info@globalplus.news",
+                            ReplyToAddress = "info@globalplus.news",
+                            PostmasterAddress = "info@globalplus.news",
+                            EmailDomain = "globalplus.news",
                         };
 
                         return output;

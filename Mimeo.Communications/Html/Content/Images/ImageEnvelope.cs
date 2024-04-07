@@ -61,6 +61,7 @@ namespace Mimeo.Communications.Html.Content.Images
             return this;
         }
 
+
         public byte[] GetBytes(ImageFormat imageFormat)
         {
             using (MemoryStream memoryStream = new MemoryStream())

@@ -77,7 +77,8 @@ namespace Mimeo.Communications.Email.Delivery
 
         public string BasicCredsFactory()
         {
-            return $"api:{_config.MailgunApiKey}";
+            var output = $"api:{_config.MailgunApiKey.ToInsecureString()}";
+            return output;
         }
 
 

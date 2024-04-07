@@ -9,6 +9,7 @@ using Mimeo.Communications.Html.Content.Fragments;
 using Mimeo.Communications.Html.Content.Images;
 using Mimeo.Communications.Html.Template;
 using Nito.AsyncEx;
+using System.Security.Cryptography.Xml;
 
 
 namespace Mimeo.ConsoleApp
@@ -41,85 +42,112 @@ namespace Mimeo.ConsoleApp
             var contentModel = BuildContent();
             var html = _templateService.GenerateHtml(contentModel, new BasicTemplate01());
             File.WriteAllText(@"C:\DEV\Mimeo\TestOutput\TestEmail.html", html);
-            
+
             var config = _configs[MailgunConfigIds.Config0001];
             var mailgun = _mailgunApiFactory(config);
-            AsyncContext.Run(() => mailgun.Send("aleksjones@gmail.com", "Hello", html, contentModel.ImageReferences));
+            AsyncContext.Run(
+                () => mailgun.Send("info@logicautomated.com", "Hello", html, contentModel.ImageReferences));
         }
 
 
         private ContentModel BuildContent()
         {
             _imageFactory
-                .SetLocalDirectory(@"C:\DEV\Mimeo\TestFileStorage")
+                .SetLocalDirectory(@"C:\DEV\Mimeo\TestFileStorage\0001\")
                 .SetDefaultTransferMedium(ImageTransferMedium.CidEmbedded);
             
             var content = new List<IContentBlock>();
 
             var companyLogo
                 = _imageFactory
-                    .GetImage("CompanyLogo.jpg")
-                    .SetTitle("Email Marketing Made Global")
-                    .SetAlt("Company Logo - can you not observe the ferocity??");
+                    .GetImage("GlobalPlusBlackLogo.png")
+                    .SetTitle("Global Plus New - Media Company")
+                    .SetAlt("Global Plus New - Media Company")
+                    .SetStyle("max-width", "100%");
 
 
             var contentModel = new ContentModel();
 
             contentModel.ExtendedProperties[BasicTemplate01.CONTENTMODEL_TITLE]
-                = "This is test of extended properties";
+                = "Bringing they news you want right to your inbox";
 
             content.Add(new SingleBlock(_fragmentFactory.Image(companyLogo)));
+            content.Add(new SingleBlock(_fragmentFactory.Html("<hr />")));
+            content.Add(new SingleBlock(_fragmentFactory.Html("<h4>Global Plus - Family &amp; Parenting</h4>")));
 
-            content.Add(new SingleBlock(_fragmentFactory.Html(
-                @"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>")));
+            var shoppingImage
+                = _imageFactory
+                    .GetImage("Shopping.png")
+                    .SetTitle("Customers finding the stuff they like")
+                    .SetAlt("Customers finding the stuff they like")
+                    .SetStyle("max-width", "150px");
 
-            //var chatGptImage
-            //    = _imageFactory
-            //        .GetImage("ChatGptNews.png")
-            //        .SetTitle("AI/ML Advancements")
-            //        .SetAlt("New developments in AI technology");
+            var shopping = new DoubleBlock(
+                _fragmentFactory.Html(
+                    @"<p style=""padding-right:20px;"">Offline shopping with self-checkouts has been increasingly favored for its speed and efficiency, 
+                    contributing significantly to a positive customer experience. 
+                    <a href=""https://www.shopify.com/retail/trend-watch-the-death-of-the-checkout-line"">A report by Shopify</a> highlights that
+                    providing more checkout options, including self-checkouts, not only boosts customer satisfaction 
+                    but also reduces wait times, leading to more sales and a higher Customer Lifetime Value (CLV) (Shopify).</p>"),
+                _fragmentFactory.Image(shoppingImage,
+                    "https://www.shopify.com/retail/trend-watch-the-death-of-the-checkout-line"),
+                new StyleBag() {{"margin-bottom", "20px"}});
+            content.Add(shopping);
 
-            //content.Add(new DoubleBlock(
-            //    _fragmentFactory.Html(
-            //        @"<p style='padding-right:15px;'>
-            //            So, how should we expect to take care of these test items???</p>"),
-            //    _fragmentFactory.Image(chatGptImage)));
+            var seatSafety
+                = _imageFactory
+                    .GetImage("SeatSafety.png")
+                    .SetTitle("Transport for NSW")
+                    .SetAlt("Transport for NSW")
+                    .SetStyle("max-width", "200px");
 
-            //content.Add(new SingleBlock(
-            //    _fragmentFactory.Html(
-            //        @"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-            //            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-            //            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-            //            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-            //            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"),
-                    
-            //        new StyleBag() { { "background-color","#f4f4f4" }}));
+            content.Add(new DoubleBlock(
+                _fragmentFactory.Html(
+                    @"<p style=""padding-right:20px;"">
+                        Having an adult sit on another's lap in a vehicle is highly unsafe for several reasons. 
+                        Seat belts are designed to protect individual occupants based on standard seating positions, 
+                        and having someone sit on your lap disrupts this safety mechanism. 
+                        <a href=""https://www.transport.nsw.gov.au/roadsafety/topics-tips/seatbelts"">
+                            The primary function of a seatbelt is to decelerate the passenger at the same rate as the vehicle during a crash,
+                        </a>
+                        distribute the force of impact over the body's stronger areas (such as the pelvis and chest),
+                        and prevent the occupant from hitting interior parts of the vehicle or being ejected 
+                        (Transport for NSW)​.</p>"
+            ),
+            _fragmentFactory.Image(seatSafety, "https://www.transport.nsw.gov.au/roadsafety/topics-tips/seatbelts")
+            ));
 
-            //var chatGptImage2
-            //    = _imageFactory
-            //        .GetImage("ChatGptNews.png")
-            //        .SetTitle("AI/ML Advancements")
-            //        .SetAlt("New developments in AI technology");
 
-            //content.Add(new DoubleBlock(
-            //    _fragmentFactory.Html(
-            //        @"<p style='padding-right:15px;'>
-            //            So, how should we expect to take care of these test items???</p>"),
-            //    _fragmentFactory.Image(chatGptImage2),
-            //    new StyleBag() { { "background-color", "#e4e4e4" } }));
+            var hillaryHome
+                = _imageFactory
+                    .GetImage("HillaryHome.png")
+                    .SetTitle("Home Grown Hillary")
+                    .SetAlt("Home Grown Hillary")
+                    .SetStyle("max-width", "200px");
+
+            content.Add(new DoubleBlock(
+                _fragmentFactory.Html(
+                    @"<p style=""padding-right:20px;"">
+                        <a href=""https://homegrownhillary.com/save-money-on-groceries/"">Meal Planning with AI:</a>
+                        Utilize AI tools like chatbots for meal planning.
+                        By inputting your available ingredients, dietary preferences, and meal types you enjoy, 
+                        you can get meal plans and shopping lists that help you use what you have and buy only what you need​. 
+                        Being conscientious about using leftovers and prioritizing eating what you have can save money. 
+                        Creative cooking to use up ingredients before they go bad prevents wasting money on food that's thrown away  
+                        (Homegrown Hillary)​.</p>"
+                ),
+                _fragmentFactory.Image(hillaryHome, "https://homegrownhillary.com/save-money-on-groceries/")
+            ));
+
+
+            // Utilize AI tools like chatbots for meal planning. By inputting your available ingredients, dietary preferences, and meal types you enjoy, you can get meal plans and shopping lists that help you use what you have and buy only what you need​(Homegrown Hillary)​.
 
             //var officeImage
             //    = _imageFactory
             //        .GetImage("Office1.jpg")
             //        .SetTitle("Working Away")
             //        .SetAlt("Pushing the thresholds of all known human productivity limits");
-
             //content.Add(new SingleBlock(_fragmentFactory.Image(officeImage)));
-
 
             //var emoji
             //    = _imageFactory
@@ -141,14 +169,25 @@ namespace Mimeo.ConsoleApp
             contentModel.AddContent(content);
 
             contentModel.Footer = new SingleBlock(_fragmentFactory.Html(
-                @"<p>Specially vetted verbiage lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                laboris nisi ut aliquip ex ea commodo consequat.</p>" +
-                "<p style=\"word-wrap:break-word;\">"
-                + @"Specially vetted verbiage lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut \r\n                
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco \r\n                
-                    laboris nisi ut aliquip ex ea commodo consequat.".ToBase64() + "</p>"));
+                @"<p>Global News Plus is technology-digital news aggregation company serving niche needs of our customers 
+                with curated news feeds provided to our subscribers sourced from both, internal and external news providers.
+                </p>
+                <p>At Global Plus News, our commitment goes beyond merely aggregating news; we're dedicated to enhancing your understanding of the world. 
+                By leveraging cutting-edge technology and insightful analytics, 
+                we tailor our news delivery to match the specific interests and demands of our discerning audience. 
+                Our curated feeds ensure that you stay informed with the most relevant and impactful stories, 
+                spanning a broad array of categories from technology to global events, without the overwhelm of unnecessary information. 
+                Our team meticulously selects content from a diverse range of reputable internal and external sources, 
+                ensuring you receive not just news, but a comprehensive worldview.
+                </p>
+                <p>
+                As subscribers to Global Plus News, you are at the center of everything we do. Your informed perspective is our greatest achievement, and we're constantly innovating to serve you better. 
+                Trust us to keep you ahead of the curve, with access to exclusive insights and a seamless reading experience tailored just for you.
+                </p>
+                <p>Thank you for choosing Global Plus News. Together, let's redefine the way we stay informed about the world.</p>" 
+                //@"<p style=\"word-wrap:break-word;\">"
+                //+ @".".ToBase64() + "</p>"
+                ));
 
             return contentModel;
         }

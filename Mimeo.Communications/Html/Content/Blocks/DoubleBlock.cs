@@ -9,10 +9,18 @@ namespace Mimeo.Communications.Html.Content.Blocks
         public List<IFragment> Content1 { get; set; }
         public List<IFragment> Content2 { get; set; }
 
-        public List<ImageEnvelope> 
-                ImageRefs => Content1
-                    .ImageRefs()
-                    .Merge(Content2.ImageRefs());
+        public List<ImageEnvelope> ImageRefs
+        {
+            get
+            {
+                var imageRefs1 = Content1.ImageRefs();
+                var imageRefs2 = Content2.ImageRefs();
+                var output = new List<ImageEnvelope>();
+                output.AddRange(imageRefs1);
+                output.AddRange(imageRefs2);
+                return output.DistinctBy(x => x.UniqueId).ToList();
+            }
+        }
         
         public StyleBag Style { get; set; } = new StyleBag();   // { { "text-align", "center" }, };
 
