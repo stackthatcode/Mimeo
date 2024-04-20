@@ -275,6 +275,10 @@ __pycache__/
 # tools/
 
 
+
+# Input Files
+InputFiles/
+
 # Log Files
 Logs/
 

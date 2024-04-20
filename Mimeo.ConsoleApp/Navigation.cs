@@ -13,7 +13,7 @@ namespace Mimeo.ConsoleApp
         {
             new BootstrapCommand<ConsoleTaskService>(
                 CommandNumbering++,
-                "Send Email (TEST 0001)", 
+                "Send Email (TEST 0016)", 
                 x => x.SendEmail()),
 
             new BootstrapCommand<ConsoleTaskService>(

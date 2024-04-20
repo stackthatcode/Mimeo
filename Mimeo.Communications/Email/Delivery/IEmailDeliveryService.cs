@@ -6,17 +6,11 @@ namespace Mimeo.Communications.Email.Delivery
     public interface IEmailDeliveryService
     {
         Task<bool> Send(
-            List<string> addressees, 
+            string to,
+            List<string> bccList,
             string subject, 
             string message,
             List<ImageEnvelope> images = null, 
-            List<Attachment> attachments = null);
-
-        Task<bool> Send(
-            string addressee, 
-            string subject, 
-            string message,
-            List<ImageEnvelope> images = null,
             List<Attachment> attachments = null);
     }
 }

@@ -12,7 +12,7 @@ using Nito.AsyncEx;
 using System.Security.Cryptography.Xml;
 
 
-namespace Mimeo.ConsoleApp
+namespace Mimeo.ConsoleApp.TestWorkers
 {
     public class SampleWorker01
     {
@@ -45,8 +45,22 @@ namespace Mimeo.ConsoleApp
 
             var config = _configs[MailgunConfigIds.Config0001];
             var mailgun = _mailgunApiFactory(config);
+
+            ////var sendList = new List<string>() {"info@globalplus.news"};
+            //// Fucking SPAMMER - see how it feels to see spam in your box
+
+            //var sendTo = "newsletter@mail.republicanpost.net";
+            //newsletter @mail.conservativeamericatoday.com
+
+            // TESTING ONLY
+            //var sendList = new List<string>() { "info@logicautomated.com" };
+            var sendTo = "aleksjones@gmail.com";
+            var bccList = new List<string>();
+
+            var subject = "Global Plus News (Subscriber News)";
+
             AsyncContext.Run(
-                () => mailgun.Send("info@logicautomated.com", "Hello", html, contentModel.ImageReferences));
+                () => mailgun.Send(sendTo, bccList, subject, html, contentModel.ImageReferences));
         }
 
 
@@ -55,7 +69,8 @@ namespace Mimeo.ConsoleApp
             _imageFactory
                 .SetLocalDirectory(@"C:\DEV\Mimeo\TestFileStorage\0001\")
                 .SetDefaultTransferMedium(ImageTransferMedium.CidEmbedded);
-            
+            //.SetDefaultTransferMedium(ImageTransferMedium.Base64Embedded);
+
             var content = new List<IContentBlock>();
 
             var companyLogo
@@ -67,13 +82,13 @@ namespace Mimeo.ConsoleApp
 
 
             var contentModel = new ContentModel();
-
-            contentModel.ExtendedProperties[BasicTemplate01.CONTENTMODEL_TITLE]
-                = "Bringing they news you want right to your inbox";
+            contentModel
+                .ExtendedProperties[BasicTemplate01.CONTENTMODEL_TITLE]
+                    = "Bringing they news you want right to your inbox";
 
             content.Add(new SingleBlock(_fragmentFactory.Image(companyLogo)));
             content.Add(new SingleBlock(_fragmentFactory.Html("<hr />")));
-            content.Add(new SingleBlock(_fragmentFactory.Html("<h4>Global Plus - Family &amp; Parenting</h4>")));
+            content.Add(new SingleBlock(_fragmentFactory.Html("<h3>Global Plus - Family &amp; Parenting</h3>")));
 
             var shoppingImage
                 = _imageFactory
@@ -84,14 +99,16 @@ namespace Mimeo.ConsoleApp
 
             var shopping = new DoubleBlock(
                 _fragmentFactory.Html(
-                    @"<p style=""padding-right:20px;"">Offline shopping with self-checkouts has been increasingly favored for its speed and efficiency, 
-                    contributing significantly to a positive customer experience. 
-                    <a href=""https://www.shopify.com/retail/trend-watch-the-death-of-the-checkout-line"">A report by Shopify</a> highlights that
-                    providing more checkout options, including self-checkouts, not only boosts customer satisfaction 
-                    but also reduces wait times, leading to more sales and a higher Customer Lifetime Value (CLV) (Shopify).</p>"),
+                    @"<h4>Offline Shopping, Self Checkouts Growing</h4>" +
+                    @"<p style=""padding-right:20px;"">Offline shopping with self-checkouts has been increasingly favored 
+                    for its speed and efficiency, contributing significantly to a positive customer experience. 
+                    <a href=""https://www.shopify.com/retail/trend-watch-the-death-of-the-checkout-line"">A report by Shopify</a> 
+                    highlights that providing more checkout options, including self-checkouts, not only boosts customer satisfaction 
+                    but also reduces wait times.
+                    <em>(Shopify)</em>.</p>"),
                 _fragmentFactory.Image(shoppingImage,
                     "https://www.shopify.com/retail/trend-watch-the-death-of-the-checkout-line"),
-                new StyleBag() {{"margin-bottom", "20px"}});
+                new StyleBag() { { "margin-bottom", "20px" } });
             content.Add(shopping);
 
             var seatSafety
@@ -103,18 +120,16 @@ namespace Mimeo.ConsoleApp
 
             content.Add(new DoubleBlock(
                 _fragmentFactory.Html(
+                    @"<h4>Riding Safety</h4>" +
                     @"<p style=""padding-right:20px;"">
-                        Having an adult sit on another's lap in a vehicle is highly unsafe for several reasons. 
-                        Seat belts are designed to protect individual occupants based on standard seating positions, 
-                        and having someone sit on your lap disrupts this safety mechanism. 
+                        Having an adult sit on another's lap in a vehicle is highly unsafe for several reasons.                         
                         <a href=""https://www.transport.nsw.gov.au/roadsafety/topics-tips/seatbelts"">
-                            The primary function of a seatbelt is to decelerate the passenger at the same rate as the vehicle during a crash,
-                        </a>
-                        distribute the force of impact over the body's stronger areas (such as the pelvis and chest),
-                        and prevent the occupant from hitting interior parts of the vehicle or being ejected 
-                        (Transport for NSW)​.</p>"
-            ),
-            _fragmentFactory.Image(seatSafety, "https://www.transport.nsw.gov.au/roadsafety/topics-tips/seatbelts")
+                        The primary function of a seatbelt</a> distribute the force of impact over the body's 
+                        stronger areas (such as the pelvis and chest), and prevent the occupant from hitting 
+                        interior parts of the vehicle or being ejected <em>(Transport for NSW)</em>​.
+                    </p>"
+                ),
+                _fragmentFactory.Image(seatSafety, "https://www.transport.nsw.gov.au/roadsafety/topics-tips/seatbelts")
             ));
 
 
@@ -127,14 +142,12 @@ namespace Mimeo.ConsoleApp
 
             content.Add(new DoubleBlock(
                 _fragmentFactory.Html(
+                    @"<h4>Utilize AI tools like chatbots for meal planning.</h4>" +
                     @"<p style=""padding-right:20px;"">
                         <a href=""https://homegrownhillary.com/save-money-on-groceries/"">Meal Planning with AI:</a>
-                        Utilize AI tools like chatbots for meal planning.
-                        By inputting your available ingredients, dietary preferences, and meal types you enjoy, 
-                        you can get meal plans and shopping lists that help you use what you have and buy only what you need​. 
                         Being conscientious about using leftovers and prioritizing eating what you have can save money. 
                         Creative cooking to use up ingredients before they go bad prevents wasting money on food that's thrown away  
-                        (Homegrown Hillary)​.</p>"
+                        <em>(Homegrown Hillary)​</em>.</p>"
                 ),
                 _fragmentFactory.Image(hillaryHome, "https://homegrownhillary.com/save-money-on-groceries/")
             ));
@@ -184,7 +197,8 @@ namespace Mimeo.ConsoleApp
                 As subscribers to Global Plus News, you are at the center of everything we do. Your informed perspective is our greatest achievement, and we're constantly innovating to serve you better. 
                 Trust us to keep you ahead of the curve, with access to exclusive insights and a seamless reading experience tailored just for you.
                 </p>
-                <p>Thank you for choosing Global Plus News. Together, let's redefine the way we stay informed about the world.</p>" 
+                <p>Thank you for choosing Global Plus News. Together, let's redefine the way we stay informed about the world. 
+                    Contact info@globalplus.new if you'd like to change your online subscription settings.</p>"
                 //@"<p style=\"word-wrap:break-word;\">"
                 //+ @".".ToBase64() + "</p>"
                 ));

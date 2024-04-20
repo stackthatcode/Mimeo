@@ -83,17 +83,8 @@ namespace Mimeo.Communications.Email.Delivery
 
 
         public async Task<bool> Send(
-                string to, 
-                string subject, 
-                string message,
-                List<ImageEnvelope> images = null,
-                List<Attachment> attachments = null)
-        {
-            return await Send(new List<string> { to }, subject, message, images, attachments);
-        }
-
-        public async Task<bool> Send(
-                List<string> toList, 
+                string to,
+                List<string> bccList,
                 string subject, 
                 string message, 
                 List<ImageEnvelope> images = null,
@@ -106,10 +97,15 @@ namespace Mimeo.Communications.Email.Delivery
 
             var request = new MultipartFormDataContent();
 
-            foreach (var to in toList)
-            {
-                request.Add(new StringContent(to), "to");
-            }
+            //foreach (var to in toList)
+            //{
+            request.Add(new StringContent(to), "to");
+            //}
+
+            //foreach (var bcc in bccList)
+            //{
+            //    request.Add(new StringContent(bcc), "bcc");
+            //}
 
             //request.Add(new StringContent(_config.PostmasterAddress), "bcc");
             //request.Add(new StringContent(_config.EmailDomain), "domain");
@@ -146,8 +142,12 @@ namespace Mimeo.Communications.Email.Delivery
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 _logger.Info($"Message sent to Mailgun - " +
-                            $"recipients: {toList.ToCommaDelimited()} - " +
+                            $"to: {to} - " +
                             $"subject: {subject}");
+                _logger.Info($"Message sent to Mailgun - " +
+                             $"bcc: {bccList.ToCommaDelimited()} - " +
+                             $"subject: {subject}");
+
                 return true;
             }
             else

@@ -12,6 +12,7 @@ using RazorLight;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
+
 namespace Mimeo.Communications
 {
     public class CommunicationsAutofac
@@ -19,12 +20,13 @@ namespace Mimeo.Communications
         public static void Build(ContainerBuilder builder)
         {
             var loggingTemplate =
-                "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {RequestId} [{Level:u3}] {Message}{NewLine}{Exception}";
+                "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {RequestId} " +
+                "[{Level:u3}] {Message}{NewLine}{Exception}";
 
             Log.Logger
                 = new LoggerConfiguration()
                     .WriteTo.File(
-                        @"C:\DEV\Mimeo\Logs",
+                        @"C:\DEV\Mimeo\Logs\MimeoLog",
                         rollingInterval: RollingInterval.Day,
                         retainedFileCountLimit: 14,
                         outputTemplate: loggingTemplate)
@@ -75,9 +77,6 @@ namespace Mimeo.Communications
                     })
                 .Named<MailgunConfig>(MailgunConfigIds.Config0001);
 
-            // 0002
-            // 0003
-            // ../
         }
     }
 }

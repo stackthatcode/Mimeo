@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Mimeo.Blocks;
 using Mimeo.Communications;
+using Mimeo.ConsoleApp.TestWorkers;
 //using Mimeo.Communications;
 
 
@@ -21,8 +22,7 @@ namespace Mimeo.ConsoleApp
             // Register your stuff here
             //
             builder.RegisterType<ConsoleTaskService>().InstancePerLifetimeScope();
-            builder.RegisterType<SampleWorker01>().InstancePerLifetimeScope();
-
+            builder.RegisterType<SampleWorker16>().InstancePerLifetimeScope();
             return builder.Build();
         }
     }

@@ -68,6 +68,16 @@ namespace Mimeo.Communications.Email.Delivery
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> Send(List<string> toList, List<string> bccList, string subject, string message, List<ImageEnvelope> images = null, List<Attachment> attachments = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Send(string to, List<string> bccList, string subject, string message, List<ImageEnvelope> images = null, List<Attachment> attachments = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

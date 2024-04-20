@@ -1,15 +1,17 @@
 ﻿using System.Security;
 using Mimeo.Blocks.Security;
 using Mimeo.Communications.Config;
+using Mimeo.ConsoleApp.TestWorkers;
 
 namespace Mimeo.ConsoleApp
 {
     public class ConsoleTaskService
     {
-        private readonly SampleWorker01 _worker;
+        private readonly SampleWorker16 _worker;
         private readonly MailgunConfigKeyService _configKeyService;
 
-        public ConsoleTaskService(SampleWorker01 worker, MailgunConfigKeyService configKeyService)
+
+        public ConsoleTaskService(SampleWorker16 worker, MailgunConfigKeyService configKeyService)
         {
             this._worker = worker;
             _configKeyService = configKeyService;
