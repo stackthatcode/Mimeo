@@ -64,8 +64,8 @@ namespace Mimeo.Communications
                         {
                             //MailgunResource
                             //    = "https://api.mailgun.net/v3/sandbox1cfe721f7d774e249b23e53a9f251591.mailgun.org/messages",
-                            MailgunResource
-                                = "https://api.mailgun.net/v3/globalplus.news/messages",
+                            //
+                            MailgunResource = "https://api.mailgun.net/v3/globalplus.news/messages",
                             MailgunApiKey = configService.GetApiKey(),
                             FromAddress = "info@globalplus.news",
                             ReplyToAddress = "info@globalplus.news",
