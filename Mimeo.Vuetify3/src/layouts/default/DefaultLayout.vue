@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar density="compact" elevation="1">
+    <v-app-bar density="compact" flat>
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
@@ -77,5 +77,9 @@ let items = ref<Array<NavigationItem>>([
   text-transform: uppercase;
   letter-spacing: 0.25em !important;
   font-weight: 700;
+}
+
+.v-toolbar__content {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); /* Adjust color and opacity as needed */
 }
 </style>

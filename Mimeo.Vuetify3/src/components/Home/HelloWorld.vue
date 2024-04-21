@@ -1,13 +1,13 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex align-center text-center fill-height">
-      <div class="py-14" />
-
       <v-img contain height="100" src="@/assets/Function_fx_Logo.jpg" />
 
-      <h4 class="text-h6 font-weight-bold">(Lighthouse Protype)</h4>
+      <h4 class="text-h6 font-weight-bold">
+        (Demonstration of v-responsive tag with fill-height enabled)
+      </h4>
 
-      <div class="py-14" />
+      <div class="py-3" />
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
@@ -61,7 +61,7 @@ import { ref, computed, reactive } from "vue";
 // Observe how the import of a Component includes an "named object destructuring"
 // ... that provides access to the exported interface type TestClickEvent
 //
-import Test, { TestClickEvent } from "./Test.vue";
+import Test, { TestClickEventArgs } from "./Test.vue";
 
 import { useAppStore } from "@/store/app";
 
@@ -113,7 +113,7 @@ const computedTest = computed(() => {
 
 // Callback method for Click Event
 //
-const testClick = function (arg: TestClickEvent) {
-  alert(arg.eventId + " " + arg.metadata);
+const testClick = function (arg: TestClickEventArgs) {
+  alert(arg.eventId + " " + arg.payload);
 };
 </script>
