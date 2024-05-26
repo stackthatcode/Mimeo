@@ -24,6 +24,7 @@
           <v-btn color="primary" class="mb-3" @click="buttonClick">
             This is a test
           </v-btn>
+
           <v-btn color="secondary" class="mb-3 ml-3" @click="buttonClick2">
             Another Test
           </v-btn>
@@ -75,7 +76,6 @@ type DataType666 = {
 // Using the ref method, with its generic argument passed thereto... (?)
 //
 const testArray: Array<DataType666> = [{ a: 300, b: 900 }];
-
 const appStore = useAppStore();
 
 let arrayData = ref<Array<DataType666>>(testArray);
@@ -113,7 +113,8 @@ const computedTest = computed(() => {
 
 // Callback method for Click Event
 //
-const testClick = function (arg: TestClickEventArgs) {
+const testClick = function (arg: TestClickEventArgs): number {
   alert(arg.eventId + " " + arg.payload);
+  return 3;
 };
 </script>

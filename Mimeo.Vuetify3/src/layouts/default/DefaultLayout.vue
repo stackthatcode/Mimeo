@@ -36,6 +36,8 @@
 import { ref } from "vue";
 import { RouteLocationRaw } from "vue-router";
 
+// Vue 3 Composition API "ref" basic function enables reactivity
+//
 let drawer = ref<boolean>(false);
 
 type NavigationItem = {
@@ -52,7 +54,6 @@ let items = ref<Array<NavigationItem>>([
       name: "main-dashboard",
     },
   },
-
   {
     icon: "mdi-playlist-edit",
     title: "Stock Configuration",
@@ -60,7 +61,6 @@ let items = ref<Array<NavigationItem>>([
       name: "stock-config",
     },
   },
-
   {
     icon: "mdi-flask",
     title: "Test Page",

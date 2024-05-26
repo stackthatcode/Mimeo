@@ -23,7 +23,7 @@ import { useMainStore } from "@/store/mainStore";
 
 const mainStore = useMainStore();
 
-const buttonCallback2 = function () {
+const buttonCallback2 = function (): void {
   if (mainStore.spinnerVisible) {
     mainStore.spinnerOff();
   } else {
@@ -31,7 +31,7 @@ const buttonCallback2 = function () {
   }
 };
 
-const buttonCallback = function () {
+const buttonCallback = function (): Promise<QuoteApiResponse> {
   let parameters: QuoteApiParams = {
     category: "all",
     count: 5,
