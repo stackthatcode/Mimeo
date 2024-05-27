@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@mdi/font": "6.2.95",
+    "axios": "^1.7.2",
     "core-js": "^3.34.0",
     "roboto-fontface": "*",
+    "vite": "^5.2.11",
     "vue": "^3.4.21",
     "vuetify": "^3.5.8"
   },

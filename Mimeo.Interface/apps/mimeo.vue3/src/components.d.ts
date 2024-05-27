@@ -7,8 +7,17 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    AppFooter: typeof import('./components/AppFooter.vue')['default']
+    DefaultLayout: typeof import('./components/layouts/default/DefaultLayout.vue')['default']
+    HelloWorld: typeof import('./components/Test/HelloWorld.vue')['default']
+    MainDashboard: typeof import('./components/Main/MainDashboard.vue')['default']
+    MainTest: typeof import('./components/Main/MainTest.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Stocks: typeof import('./components/Config/Stocks.vue')['default']
+    Test: typeof import('./components/Test/Test.vue')['default']
+    Testbed: typeof import('./components/Test/Testbed.vue')['default']
+    TestComponent: typeof import('./components/Test/TestComponent.vue')['default']
+    TestForm: typeof import('./components/Test/TestForm.vue')['default']
   }
 }
