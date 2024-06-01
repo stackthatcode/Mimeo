@@ -1,6 +1,7 @@
 <template lang="">
   <v-card height="200" class="pa-3 ma-3" variant="flat">
     <template v-slot:title> Test Component </template>
+
     <template v-slot:subtitle>
       Example of strongly-typed props and events
     </template>
@@ -21,24 +22,35 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from "vue";
 
+// Props
+//
 export interface TestProps {
   value: Number;
   description: String;
 }
+const props = defineProps<TestProps>();
+
+// Events
+//
 export interface TestClickEventArgs {
   eventId: Number;
   payload: String;
 }
 
-const props = defineProps<TestProps>();
-
+export interface TestBeepEventArgs {
+  eventId: Number;
+  payload: String;
+}
 const emit = defineEmits<{
   (e: "click", metadata: TestClickEventArgs): void;
-  (e: "beep", metadata: TestClickEventArgs): void;
+  (e: "beep", metadata: TestBeepEventArgs): void;
 }>();
 
 const buttonCallback = function () {
-  emit("click", { eventId: 666, payload: "Hail Thy Lord!" });
+  emit("click", {
+    eventId: props.value,
+    payload: "My current props " + props.value,
+  });
 };
 </script>
 

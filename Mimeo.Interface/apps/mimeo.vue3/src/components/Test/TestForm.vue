@@ -1,106 +1,111 @@
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="d-flex align-center text-center fill-height">
-      <h4 class="text-h6 font-weight-bold">
-        (Demo v-responsive tag with fill-height enabled)
-      </h4>
+  <v-container>
+    <h4 class="text-h6 font-weight-bold">
+      (Demo v-responsive tag with fill-height enabled)
+    </h4>
 
-      <div class="py-3" />
+    <div class="py-3" />
 
-      <v-row class="d-flex align-center justify-center">
-        <v-col cols="auto">
-          <TestComponent
-            :value="myValue"
-            :description="myDescription"
-            @click="testClick"
-          />
-        </v-col>
+    <v-row class="d-flex align-center justify-center">
+      <v-col cols="4" alignSelf="start">
+        <TestComponent
+          :value="componentCounter"
+          :description="componentDesc"
+          @click="testComponentClick"
+        />
 
-        <!--
-        <v-col cols="auto">
-          <h1 class="mt-4">Hello World Data {{ computedTest }}</h1>
-
-          <v-btn color="primary" class="mb-3" @click="buttonClick">
-            This is a test
+        <div class="ml-5 mr-5 pl-5 pr-5">
+          <v-btn
+            color="secondary"
+            prepend-icon="mdi-account-multiple-outline"
+            variant="flat"
+            @click="testDialogClick"
+          >
+            <div class="text-none font-weight-regular">LAUNCH DIALOG</div>
           </v-btn>
+        </div>
 
-          <v-btn color="secondary" class="mb-3 ml-3" @click="buttonClick2">
-            Another Test
-          </v-btn>
+        <TestDialog
+          :visible="mainStore.testDialogVisible"
+          @close="closeTestDialog"
+        />
+      </v-col>
 
-          <v-timeline density="compact" align="start">
-            <v-timeline-item
-              v-for="row in arrayData"
-              :key="row.a"
-              dot-color="red"
-              size="x-small"
-            >
-              <div class="mb-4">
-                <div class="font-weight-normal">
-                  <strong>Typescript is da bomb, yo!</strong>
-                </div>
-
-                <div>Static type checking: {{ row.a }} {{ row.b }}</div>
-              </div>
-            </v-timeline-item>
-          </v-timeline>
-        </v-col>
-        -->
-
-        <v-col cols="auto"> </v-col>
-      </v-row>
-    </v-responsive>
+      <v-col cols="8">
+        <v-data-table
+          :items="arrayData"
+          :headers="headers"
+          density="compact"
+        ></v-data-table>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, reactive } from "vue";
+import { DataTableHeader } from "vuetify";
+import { ref, reactive, computed } from "vue";
 import TestComponent, { TestClickEventArgs } from "./TestComponent.vue";
-import { useAppStore } from "@/stores/app";
+import TestDialog, { TestDialogCloseArgs } from "./TestDialog.vue";
+import { useMainStore } from "@/stores/mainStore";
 
-// Ultra-basic, albeit useful type declaration
-//
-type DataType666 = {
-  a: Number;
-  b: Number;
+type TestRecords = {
+  name: String;
+  address: String;
+  quantity: Number;
 };
 
-const myValue: Number = 12;
-const myDescription: String = "This is my description";
-
-// Using the ref method, with its generic argument passed thereto... (?)
+// Constants and local properties
 //
-const testArray: Array<DataType666> = [{ a: 300, b: 900 }];
-const appStore = useAppStore();
+const componentDesc: String = "This is my description";
+let componentCounter = ref<number>(10);
 
-let arrayData = ref<Array<DataType666>>(testArray);
-let counter = ref(10);
+let arrayData = ref<Array<TestRecords>>([
+  { name: "My Test", address: "123 Test Street, Test City", quantity: 2 },
+]);
 
-// Callback method for Click Event
+const headers: Array<DataTableHeader> = [
+  { value: "name", title: "Name", align: "start", width: "400" },
+  { value: "address", title: "Address", align: "start", width: "300" },
+  { value: "quantity", title: "Quantity", align: "end", width: "300" },
+];
+
+// Pinia store data
 //
-const testClick = function (arg: TestClickEventArgs): number {
-  alert(arg.eventId + " " + arg.payload);
-  return 3;
+const mainStore = useMainStore();
+
+// Events
+//
+const testComponentClick = function (arg: TestClickEventArgs): void {
+  arrayData.value.push({
+    name: "[component]",
+    address: arg.eventId + " Test Blvd",
+    quantity: arg.eventId,
+  });
+
+  componentCounter.value += 1;
 };
 
-// Methods are added by simply declaring them in the body of this script tag block;
-// ... both the declaration of a variable and the terser "function" both work, obviously
+const testDialogClick = function (): void {
+  mainStore.showTestDialog();
+};
+
+const closeTestDialog = function (args: TestDialogCloseArgs): void {
+  if (args) {
+    alert("Bing! " + args.message);
+  }
+  mainStore.hideTestDialog();
+};
+
+// Computed
 //
-function buttonClick() {
-  // Aha! Observe, that using ref constrains us to use value.
-  //
-  arrayData.value.push({ a: 909, b: 233 });
-}
-
-function buttonClick2() {
-  alert("wait!");
-  appStore.increment();
-  alert(
-    "yo! " + appStore.count + " " + appStore.doubleCount + " " + appStore.name
-  );
-}
-
-const computedTest = computed(() => {
-  return arrayData.value.length + counter.value;
-});
+// const computedTest = computed(() => {
+//   return arrayData.value.length + counter.value;
+// });
 </script>
+
+<style>
+tbody tr:nth-of-type(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+</style>
