@@ -2,8 +2,41 @@ import axios from 'axios';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { useMainStore } from "@/stores/mainStore";
 
+// v0.9 AJAX
+//
 
-const optionsFactory = (method: string, url: string,  params: any) : AxiosRequestConfig => {
+// MainStore reference
+//
+const mainStore = useMainStore();
+
+
+
+// This is a static / global reference to axios. This is poorly designed, as it only accounts for one AJAX request,
+// which may be a safe assumption if I continue to abide with my practice of one AJAX call at a time i.e. none running
+// in parallel.
+//
+
+axios.interceptors.request.use((config) => {
+  mainStore.globalSpinnerShow();
+  return config;
+}, (error) => {
+  mainStore.globalSpinnerHide();
+  return Promise.reject(error);
+});
+
+axios.interceptors.response.use((config) => {
+  mainStore.globalSpinnerHide();
+  return config;
+}, (error) => {
+  mainStore.globalSpinnerHide();
+  return Promise.reject(error);
+});
+
+
+
+// Saving API Keys on the client side. Shame!
+//
+const requestFactory = (method: string, url: string,  params: any) : AxiosRequestConfig => {
   return {
     headers: {
       'X-RapidAPI-Key': '464fa87404mshc372dcf1912bac8p1f17b8jsnb2be4527daf6',
@@ -16,29 +49,11 @@ const optionsFactory = (method: string, url: string,  params: any) : AxiosReques
   }
 };
 
-const mainStore = useMainStore();
 
-axios.interceptors.request.use((config) => {
-  mainStore.spinnerOn();
-  return config;
-}, (error) => {
-  mainStore.spinnerOff();
-  return Promise.reject(error);
-});
-
-axios.interceptors.response.use((config) => {
-  mainStore.spinnerOff();
-  return config;
-}, (error) => {
-  mainStore.spinnerOff();
-  return Promise.reject(error);
-});
-
-
-
-
+// TODO - replace with our centralized AJAX Service
+//
 const invokeApi = function<T>(method: string, url: string, params: any) : Promise<T> {
-  const config : AxiosRequestConfig = optionsFactory(method, url, params);
+  const config : AxiosRequestConfig = requestFactory(method, url, params);
 
   return axios
     .request(config)

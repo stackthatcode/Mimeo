@@ -25,10 +25,7 @@
           </v-btn>
         </div>
 
-        <TestDialog
-          :visible="mainStore.testDialogVisible"
-          @close="closeTestDialog"
-        />
+        <TestDialog :visible="dialogVisible" @close="closeTestDialog" />
       </v-col>
 
       <v-col cols="8">
@@ -44,7 +41,7 @@
 
 <script lang="ts" setup>
 import { DataTableHeader } from "vuetify";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import TestComponent, { TestClickEventArgs } from "./TestComponent.vue";
 import TestDialog, { TestDialogCloseArgs } from "./TestDialog.vue";
 import { useMainStore } from "@/stores/mainStore";
@@ -59,8 +56,9 @@ type TestRecords = {
 //
 const componentDesc: String = "This is my description";
 let componentCounter = ref<number>(10);
+let dialogVisible = ref<boolean>(false);
 
-let arrayData = ref<Array<TestRecords>>([
+let arrayData = reactive<Array<TestRecords>>([
   { name: "My Test", address: "123 Test Street, Test City", quantity: 2 },
 ]);
 
@@ -70,14 +68,10 @@ const headers: Array<DataTableHeader> = [
   { value: "quantity", title: "Quantity", align: "end", width: "300" },
 ];
 
-// Pinia store data
-//
-const mainStore = useMainStore();
-
 // Events
 //
 const testComponentClick = function (arg: TestClickEventArgs): void {
-  arrayData.value.push({
+  arrayData.push({
     name: "[component]",
     address: arg.eventId + " Test Blvd",
     quantity: arg.eventId,
@@ -87,14 +81,16 @@ const testComponentClick = function (arg: TestClickEventArgs): void {
 };
 
 const testDialogClick = function (): void {
-  mainStore.showTestDialog();
+  dialogVisible.value = true;
 };
 
-const closeTestDialog = function (args: TestDialogCloseArgs): void {
+const closeTestDialog = function (args: TestDialogCloseArgs | null): void {
   if (args) {
     alert("Bing! " + args.message);
+  } else {
+    alert("Meeza no args - getting alza this codsa!");
   }
-  mainStore.hideTestDialog();
+  dialogVisible.value = false;
 };
 
 // Computed

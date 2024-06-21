@@ -28,6 +28,7 @@ export interface TestProps {
   value: Number;
   description: String;
 }
+
 const props = defineProps<TestProps>();
 
 // Events
@@ -46,7 +47,7 @@ const emit = defineEmits<{
   (e: "beep", metadata: TestBeepEventArgs): void;
 }>();
 
-const buttonCallback = function () {
+const buttonCallback = function (): void {
   emit("click", {
     eventId: props.value,
     payload: "My current props " + props.value,

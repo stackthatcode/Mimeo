@@ -10,9 +10,15 @@
       Spinner Test
     </v-btn>
 
-    <div class="mt-10">Spinner Visible: {{ mainStore.spinnerVisible }}</div>
+    <v-btn class="mt-5 mr-5" color="orange" @click="buttonCallback3">
+      Error Test
+    </v-btn>
 
-    <div v-if="mainStore.spinnerVisible">
+    <div class="mt-10">
+      Global Spinner Visible: {{ mainStore.globalSpinnerVisible }}
+    </div>
+
+    <div v-if="mainStore.globalSpinnerVisible">
       <v-progress-circular indeterminate></v-progress-circular>
     </div>
   </v-container>
@@ -25,11 +31,22 @@ import { useMainStore } from "@/stores/mainStore";
 
 const mainStore = useMainStore();
 
+const buttonCallback3 = function (): void {
+  try {
+    throw new Error("Example exception");
+  } catch (exception) {
+    console.error(exception);
+    mainStore.errorPopupShow(
+      "AJAX error - please open dev tools to view the console."
+    );
+  }
+};
+
 const buttonCallback2 = function (): void {
-  if (mainStore.spinnerVisible) {
-    mainStore.spinnerOff();
+  if (mainStore.globalSpinnerVisible) {
+    mainStore.globalSpinnerHide();
   } else {
-    mainStore.spinnerOn();
+    mainStore.globalSpinnerShow();
   }
 };
 
@@ -39,12 +56,11 @@ const buttonCallback = function (): Promise<QuoteApiResponse> {
     count: 5,
   };
 
-  // This is an example of consuming AJAX method using with encapsulation and Typescript type-safety
+  // ### this is an example of consuming AJAX method using with encapsulation and Typescript type-safety
   //
   return QuotesApi.getQuote(parameters).then((result) => {
     let test: QuoteApiResponse = result;
     console.log(test);
-    //alert("completed");
     return test;
   });
 };

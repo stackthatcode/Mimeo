@@ -1,46 +1,47 @@
 import { defineStore } from 'pinia'
 
 
-export interface mainStoreState {
-  ajaxVisible: Boolean,
-  testDialogVisible: Boolean,
+interface mainStoreState {
+  globalSpinnerVisible: Boolean,
+  errorMessage: String | null,
   name: String,
 }
 
 export const useMainStore = defineStore('mainStore', {
   state: (): mainStoreState => {
     return {
-      ajaxVisible: false,
-      testDialogVisible: false,
-      name: 'Eduardo'
+      globalSpinnerVisible: false,
+      errorMessage: null,
+      name: 'Man With No Name'
     };
   },
 
   getters: {
-    spinnerVisible: (state) => state.ajaxVisible,
-    //testDialogVisible: (state) => state.testDialogVisible,
+    // Add computed or object graph-nested properties
+    //
+    errorDialogVisible: (state) => state.errorMessage && true,
   },
 
   actions: {
-    spinnerOn(): void {
-      console.log("spinnerOn");
-      this.ajaxVisible = true;
+    globalSpinnerShow(): void {
+      console.log("globalSpinnerShow");
+      this.globalSpinnerVisible = true;
     },
 
-    spinnerOff(): void {
-      console.log("spinnerOff");
-      this.ajaxVisible = false;
+    globalSpinnerHide(): void {
+      console.log("globalSpinnerHide");
+      this.globalSpinnerVisible = false;
     },
 
-    showTestDialog(): void {
-      console.log("showTestDialog");
-      this.testDialogVisible = true;
-    },
+    errorPopupShow(errorMessage: String | null): void {
+      console.log("errorPopupShow");
+      this.errorMessage = errorMessage;
 
-    hideTestDialog(): void {
-      console.log("hideTestDialog");
-      this.testDialogVisible = false;
-    }
+    },
+    errorPopupHide(): void {
+      console.log("errorPopupHide");
+      this.errorMessage = null;
+    },
   },
 })
 
