@@ -36,8 +36,8 @@ export const useMainStore = defineStore('mainStore', {
     errorPopupShow(errorMessage: String | null): void {
       console.log("errorPopupShow");
       this.errorMessage = errorMessage;
-
     },
+
     errorPopupHide(): void {
       console.log("errorPopupHide");
       this.errorMessage = null;

@@ -1,59 +1,71 @@
 import axios from 'axios';
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { useMainStore } from "@/stores/mainStore";
 
 
+export interface AxiosRequestFactory { (method: string, url: string,  params: any): AxiosRequestConfig }
 
-export default function<T>(
-    method: string,
-    url: string,
-    params: any,
-    spinnerOnOverride?: () => void,
-    spinnerOffOverride?: () => void,
-  ) : Promise<T> {
+// const exampleRequestFactory: AxiosRequestFactory = (method: string, url: string,  params: any) : AxiosRequestConfig => {
+//   return {
+//     baseURL: 'https://localhost',
+//     method: method,
+//     params: params,
+//     url: url,
+//   }
+// };
 
-  const config : AxiosRequestConfig = requestFactory(method, url, params);
-  const mainStore = useMainStore();
+const mainStore = useMainStore();
 
-  spinnerOnOverride?.();
-  if (spinnerOnOverride === undefined) {
-    mainStore.globalSpinnerShow();
+export class AjaxInvoke {
+
+  private RequestFactory: AxiosRequestFactory;
+  private SpinnerOnOverride?: { (): void };
+  private SpinnerOffOverride?: { (): void };
+
+  constructor(
+      requestConfigFactory: AxiosRequestFactory,
+      spinnerOnOverride?: () => void,
+      spinnerOffOverride?: () => void) {
+
+    this.RequestFactory = requestConfigFactory;
+    this.SpinnerOnOverride = spinnerOnOverride;
+    this.SpinnerOffOverride = spinnerOffOverride;
   }
 
-  return axios
-    .request(config)
-    .then(( { data } : { data : T } ) => {
+  SpinnerOn() {
+    this.SpinnerOnOverride?.();
+    if (this.SpinnerOnOverride === undefined) {
+      mainStore.globalSpinnerShow();
+    }
+  }
 
-      throw "Oh noes!";
+  SpinnerOff() {
+    this.SpinnerOffOverride?.();
+    if (this.SpinnerOffOverride === undefined) {
+      mainStore.globalSpinnerHide();
+    }
+  }
 
-      spinnerOffOverride?.();
-      if (spinnerOffOverride === undefined) {
-        mainStore.globalSpinnerShow();
-      }
+  Call<T>(method: string, url: string, params: any) : Promise<T> {
+    const config : AxiosRequestConfig = this.RequestFactory(method, url, params);
+    this.SpinnerOn();
 
-      return data;
-    })
-    .catch(exception => {
-      spinnerOffOverride?.();
-      if (spinnerOffOverride === undefined) {
-        mainStore.globalSpinnerShow();
-      }
+    return axios
+      .request(config)
+      .then(( { data } : { data : T } ) => {
 
-      console.error(exception);
+        this.SpinnerOff();
+        return data;
+      })
+      .catch(exception => {
+        this.SpinnerOff();
+        console.error(exception);
 
-      // TODO - we can filter through handling 401's, 403's, and 500's separately i.e. when they time for UX.
-      //
-      mainStore.errorPopupShow(exception);
-      return (null as unknown as T);
-    });
+        // ## TODO - we can filter through handling 401's, 403's, and 500's separately i.e. when they time for UX.
+        //
+        mainStore.errorPopupShow(exception);
+        return (null as unknown as T);
+      });
+  }
 }
-
-const requestFactory = (method: string, url: string,  params: any) : AxiosRequestConfig => {
-  return {
-    baseURL: 'https://localhost',
-    method: method,
-    params: params,
-    url: url,
-  }
-};
 
